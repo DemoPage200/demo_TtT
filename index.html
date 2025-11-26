@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Audio Language Model Comparison</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f6f8fa;
+        }
+        h1, h2, h3 {
+            color: #24292e;
+        }
+        h1 {
+            border-bottom: 2px solid #e1e4e8;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        h3 {
+            color: #0366d6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e1e4e8;
+        }
+        th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f6f8fa;
+        }
+        .task-type {
+            background-color: #e8f5e9;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .question {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+        }
+        audio {
+            width: 200px;
+            height: 32px;
+        }
+        .notes {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #e1e4e8;
+            margin: 30px 0;
+        }
+        code {
+            background-color: #f6f8fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎵 Audio Language Model Comparison</h1>
+    <p>This page showcases the audio generation quality of different speech language models on the URO-Bench benchmark.</p>
+
+    <h2>📊 Models Compared</h2>
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Description</th>
+        </tr>
+        <tr><td><strong>AR-NAR</strong></td><td>Audio language model</td></tr>
+        <tr><td><strong>AR-NAR-Pretrain</strong></td><td>Audio language model</td></tr>
+        <tr><td><strong>AR-Only</strong></td><td>Audio language model</td></tr>
+        <tr><td><strong>GLM-4-Voice</strong></td><td>Audio language model</td></tr>
+        <tr><td><strong>Vita-Audio</strong></td><td>Audio language model</td></tr>
+        <tr><td><strong>LLaMA-Omni</strong></td><td>Audio language model</td></tr>
+        <tr><td><strong>Kimi-Audio</strong></td><td>Audio language model</td></tr>
+        <tr><td><strong>SLAM-Omni</strong></td><td>Audio language model</td></tr>
+        <tr><td><strong>Mini-Omni</strong></td><td>Audio language model</td></tr>
+    </table>
+
+    <h2>📋 Task Types</h2>
+    <table>
+        <tr>
+            <th>Task Type</th>
+            <th>Description</th>
+            <th>Evaluation Criteria</th>
+        </tr>
+        <tr>
+            <td><strong>open</strong></td>
+            <td>开放式问答 (Open-ended QA)</td>
+            <td>Models need to understand and freely answer user questions, scored on relevance, accuracy, and conciseness (1-5 points)</td>
+        </tr>
+        <tr>
+            <td><strong>semi-open</strong></td>
+            <td>半开放式问答 (Semi-open QA)</td>
+            <td>Reference answers provided but not required to match exactly, as long as reasonable and aligned with the question (1-5 points)</td>
+        </tr>
+        <tr>
+            <td><strong>qa</strong></td>
+            <td>问答题 (QA)</td>
+            <td>Has definite correct answers, judged as correct or incorrect (Yes/No)</td>
+        </tr>
+        <tr>
+            <td><strong>gs</strong></td>
+            <td>生成风格 (Generation Style)</td>
+            <td>Generate answers in specified style (e.g., poetry, formal), evaluate style matching (1-5 points)</td>
+        </tr>
+        <tr>
+            <td><strong>ue</strong></td>
+            <td>理解情感 (Understand Emotion)</td>
+            <td>Detect and empathize with user's emotional expressions, evaluate emotional understanding (1-5 points)</td>
+        </tr>
+        <tr>
+            <td><strong>ml</strong></td>
+            <td>多语言 (Multilingual)</td>
+            <td>Answer questions in specified language, evaluate language accuracy (1-5 points)</td>
+        </tr>
+        <tr>
+            <td><strong>multi</strong></td>
+            <td>多轮对话 (Multi-turn)</td>
+            <td>Evaluate context understanding and coherence in multi-turn dialogues (1-5 points)</td>
+        </tr>
+        <tr>
+            <td><strong>wer</strong></td>
+            <td>词错误率 (Word Error Rate)</td>
+            <td>Evaluate speech recognition accuracy through Word Error Rate</td>
+        </tr>
+    </table>
+
+    <hr>
+    <h2>🔤 Basic Tasks</h2>
+
+    <h3>📁 Dataset: AlpacaEval</h3>
+    <div class="task-type"><strong>Task Type:</strong> <code>open</code> - Open-ended QA - Models need to understand and freely answer user questions</div>
+
+    <h4>Case: <code>0000</code></h4>
+    <div class="question"><strong>Question:</strong> What are the names of some famous actors that started their careers on Broadway?</div>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Audio</th>
+            <th>Text Response</th>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/116086a8-6e86-4b32-8ec0-b0a15ea33476.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Some famous actors who started their careers on Broadway include Chita River a, who is renowned for her roles in musicals like " Cats" and "West Side Story," and Dan brown,  who made his big break on ...</td>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR-Pretrain</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/beee3b80-6bed-41ea-baa3-3b41ec98df5b.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Some famous actors who started their careers on Broadway include Michael Bub leigh, known for her role as Mrs. Puff in  Shubert, and Daniel Day-Latham, who played El leigh in Wicked. More recent stars...</td>
+        </tr>
+        <tr>
+            <td><strong>AR-Only</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/ac144adc-230d-4230-9851-55ad91c273a0.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The names of the first seven stars in the北斗 constellation are勺, handle, cross, handleer,勺let,勺's arm, and the cross's crossarm.</td>
+        </tr>
+        <tr>
+            <td><strong>GLM-4-Voice</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/51173436-ffa2-48ff-9791-591150b678df.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>A few famous actors who started their careers on Broadway include Al Pacino, who made his stage debut in "The Will Rogers Fable" in 1960, and later starred in "The Godfather" on Broadway. Meryl Streep...</td>
+        </tr>
+        <tr>
+            <td><strong>Vita-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/e48f587d-58c7-4856-949a-44a969e83364.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Sure! Here are some famous actors who started on Broadway: Denzel Washington, Viola Davis, and Héctor Chávez. Denzel Washington is known for roles like 'The Godfather' and 'Glory.' Viola Davis has won...</td>
+        </tr>
+        <tr>
+            <td><strong>LLaMA-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/ff4188f7-2093-4823-a0f4-2fadafe33013.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Some famous actors who started their careers on Broadway include Hugh Jackman, Neil Patrick Harris, Idina Menzel, and Audiences.</td>
+        </tr>
+        <tr>
+            <td><strong>Kimi-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/63fe0652-8aa7-4f06-a1b6-0048d5cca765.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Oh, you're talking about the big names who got their start on Broadway? There's a bunch of them. Think of people like Hugh Jackman, who was in "Les Misérables," or Meryl Streep, who's been in so many ...</td>
+        </tr>
+        <tr>
+            <td><strong>SLAM-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/249ff627-81cc-48fd-b4a2-085425d24241.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Some famous actors who started their careers on Broadway include Luciano di DiCaprio, Tony Geary, Chita Rodriguez, and Maria Poppins. These actors have had long and successful lives in the world of th...</td>
+        </tr>
+        <tr>
+            <td><strong>Mini-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/3d666a0e-e41e-4dbb-8440-227eb103ae72.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Some famous actors who started their careers on Broadway include the "World" and the FOL of the World."</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3>📁 Dataset: CommonEval</h3>
+    <div class="task-type"><strong>Task Type:</strong> <code>open</code> - Open-ended QA - Common sense questions</div>
+
+    <h4>Case: <code>0000</code></h4>
+    <div class="question"><strong>Question:</strong> Does the Earth move or is it immobile?</div>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Audio</th>
+            <th>Text Response</th>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/37d06be5-e24a-47e1-b410-3ffe0e6a7b6b.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Yes, the Earth's move, or its rotation, is still  happening. The Earth rotating on its axis causes day and night,</td>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR-Pretrain</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/3a3121c4-67ef-46cf-9bde-648eb1938fcf.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Yes, the Earth's movement is called the rotation. This rotation  is what gives us day and night, as the Earth rotates on  its axis every 24 hours.</td>
+        </tr>
+        <tr>
+            <td><strong>AR-Only</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/15bfbc45-478e-4002-8592-91785f69000d.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Yes, the Earth's atmosphere is very thin compared to other planets. The Earth's atmosphere is about 10 times thinner than the Sun's atmosphere at its closest point to us. It is also much denser and ha...</td>
+        </tr>
+        <tr>
+            <td><strong>GLM-4-Voice</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/b174c2ce-be6c-499a-9da7-29bbc917295d.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The Earth is definitely not immobile! It moves in several ways. One, it旋转 around the Sun, taking about 365.25 days for one orbit. This is what causes our seasons and years. Two, it旋转 on its own axis a...</td>
+        </tr>
+        <tr>
+            <td><strong>Vita-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/b3473cf9-9502-4079-9339-fee20d7794c4.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The Earth's core is a bit of a mystery, but scientists think it might be a mix of iron and nickel. There are two main theories: the solid inner core and the liquid outer core. The inner core is probab...</td>
+        </tr>
+        <tr>
+            <td><strong>LLaMA-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/0872b20a-389d-46d3-ae5b-2ee8edfd23ce.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The Earth moves around the Sun in an elliptical orbit.</td>
+        </tr>
+        <tr>
+            <td><strong>Kimi-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/8198d4d9-269c-4d2c-9640-213f36d9559d.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>我感觉你那边有一位男士在说话，是不是呀？</td>
+        </tr>
+        <tr>
+            <td><strong>SLAM-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/9e650eab-83d0-45ca-8190-0cc65a1d6d86.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The Earth does not move like a mobile. It is an incredibly slow and irregular motion, meaning it takes much longer to change positions than to complete one orbit around the Sun. This slow rotation occ...</td>
+        </tr>
+        <tr>
+            <td><strong>Mini-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/2f04aef0-fdbe-4208-9c97-be0ca431d10f.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The Earth is not a moving move. It is a planet that is located in the Earth's orbit.</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3>📁 Dataset: Summary</h3>
+    <div class="task-type"><strong>Task Type:</strong> <code>semi-open</code> - Semi-open QA - Summarization with reference answers</div>
+
+    <h4>Case: <code>0000</code></h4>
+    <div class="question"><strong>Question:</strong> Listen to the following story and summarize its main idea in your own words: A young girl named Sarah loved to explore the forest near her home. One day, she stumbled upon an old, forgotten path that ...</div>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Audio</th>
+            <th>Text Response</th>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/ea1c9536-2b28-443e-9c67-a690fb59ddc5.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Sara discovered a hidden waterfall during her summer camp and became  infatuated with the beauty of nature.</td>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR-Pretrain</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/c7e5b314-0ba2-4600-9dd3-e7d47c813cae.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>In this story, a young girl named sarah, also known  as sarah green, loves to explore the forest near her home  and would go there every day to marvel at nature. One day , a hidden path led her to a b...</td>
+        </tr>
+        <tr>
+            <td><strong>AR-Only</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/e9c496a0-144a-4f98-81d4-3aff290b8216.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>This passage is about a lady named sally hawkins, who is a famous person who acts on stage and screen. She told a group of people called the nobel prize committee that she is really busy taking care o...</td>
+        </tr>
+        <tr>
+            <td><strong>GLM-4-Voice</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/6259a4f6-3063-4fa6-bd1b-e13782be58fc.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The main idea of the story is about a young girl named Sarah who discovers a hidden waterfall in the forest near her home. She spends time there every day after school, enjoying the beauty and tranqui...</td>
+        </tr>
+        <tr>
+            <td><strong>Vita-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/1a32fed0-fce9-486f-9662-60d176195faf.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Sara loved to explore the forest near her home. One day, she stumbled upon an old, forgotten path that led her to a hidden waterfall. She spent hours there, marveling at the beauty of the place. Every...</td>
+        </tr>
+        <tr>
+            <td><strong>LLaMA-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/73aebba2-1721-4000-b83c-f0030391255b.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>A young girl named Sarah loved exploring the forest near her home. One day, she stumbled upon an old, forgotten path that led her to a hidden waterfall. She spent hours marveling at its beauty, visiti...</td>
+        </tr>
+        <tr>
+            <td><strong>Kimi-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/b634c423-703d-4722-be36-a4f4dee50b9f.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Sarah found a secret waterfall in the forest and it became her special place to relax and connect with nature.</td>
+        </tr>
+        <tr>
+            <td><strong>SLAM-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/8dd13b40-c66b-4807-bf6e-964f9a5a6192.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>One day, Sarah decided to explore the forest near her home. As she wandered through the winding path and discovered a hidden waterfall, she felt an overwhelming sense of connection. She had spent hour...</td>
+        </tr>
+        <tr>
+            <td><strong>Mini-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/e1187f3a-ef76-42f7-b086-6826b6365901.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The young girl who was referring to her journey to her own secret, where she was a young girl who had a deep connection with her home.</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3>📁 Dataset: Gsm8kEval</h3>
+    <div class="task-type"><strong>Task Type:</strong> <code>qa</code> - QA - Math reasoning with definite correct answers</div>
+
+    <h4>Case: <code>0000</code></h4>
+    <div class="question"><strong>Question:</strong> Joy can read 8 pages of a book in 20 minutes. How many hours will it take her to read 120 pages?</div>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Audio</th>
+            <th>Text Response</th>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/52ad556e-1300-4fc9-a638-e19b773ac944.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>To find out how many hours it will take joy to read  120 pages at a rate of 8 pages per hour, we</td>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR-Pretrain</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/84c4fd8d-0c0c-4cac-81d0-aff453a8cb5a.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>If joy can read 8 pages in 20 minutes, then  she can read 1 page in minutes. Therefore, it will  take her 50 minutes to read 120 pages. The answer  is: 50</td>
+        </tr>
+        <tr>
+            <td><strong>AR-Only</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/3b299f5b-395a-4225-a859-ab4e2fd11c2d.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>In one hour, there are 60 minutes. If the writer writes for 15 minutes each day, then in one hour they can write 4 articles. To write 120 articles, it would take them 120 articles / 4 articles per the...</td>
+        </tr>
+        <tr>
+            <td><strong>GLM-4-Voice</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/0e0e425e-a9ca-47fe-8029-0e3bb6b33b87.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Joy can read 8 pages in 20 minutes, which means she reads at a pace of 3 pages per hour. To read 120 pages, it would take her 40 hours at this pace. So, the answer is 40 hours.</td>
+        </tr>
+        <tr>
+            <td><strong>Vita-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/471e53a0-9458-4980-9178-f6c61021d56b.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Okay, let's break it down. Joy reads 8 pages in 20 minutes, so she reads 0.4 pages per minute. To read 120 pages at that rate, it will take her 300 minutes. Since there are 60 minutes in an hour, 300 ...</td>
+        </tr>
+        <tr>
+            <td><strong>LLaMA-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/6b04c30c-4b4e-4840-a8a6-db017b8b6b73.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>To read one hundred and twenty pages in twenty minutes, she would need to read at a rate of six pages per minute.</td>
+        </tr>
+        <tr>
+            <td><strong>Kimi-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/4a5f2b47-6d71-4bd3-b0ed-719c73a7db41.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>First, let's find out how many pages Joy can read in one hour. Since there are 60 minutes in an hour, and she can read 8 pages in 20 minutes, we divide 60 by 20 to find out how many sets of 20 minutes...</td>
+        </tr>
+        <tr>
+            <td><strong>SLAM-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/0bda620f-4aff-4c58-ac11-1c5ea8bc6e4d.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>It depends on several factors, such as the book's length and how much time she spends reading each page. If you read 8 pages in a short amount of time, it could take around 120 minutes, so she would b...</td>
+        </tr>
+        <tr>
+            <td><strong>Mini-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/57f99195-2c99-4324-90f8-24050d17cd61.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>It's generally recommended to read 8 pages of a book in 20 minutes, but it can take about 100 pages to 20 minutes.</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h2>🎓 Advanced Tasks</h2>
+
+    <h3>📁 Dataset: CodeSwitching-en</h3>
+    <div class="task-type"><strong>Task Type:</strong> <code>semi-open</code> - Code Switching - Performance in multilingual mixed scenarios</div>
+
+    <h4>Case: <code>0000</code></h4>
+    <div class="question"><strong>Question:</strong> Who is 马云?</div>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Audio</th>
+            <th>Text Response</th>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR</strong></td>
+            <td>❌ N/A</td>
+            <td>In the 2016 United States presidential election, the Republican Party  nominated Donald Trump as its candidate. He won the election and became  President of the United States. This was the first time ...</td>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR-Pretrain</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/a112e7ea-ce0a-4f3c-ae1e-70117aaa1c79.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Mauryan Empire, also known as the Maurya Empire , was ruled by the Ptolemaic family in India . They ruled from 324 to 185 BCE, during  the period known as the Golden Age of India. The empire is  often...</td>
+        </tr>
+        <tr>
+            <td><strong>AR-Only</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/86d97ffd-4456-45a4-8bcf-24d3050a494d.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>In russian, the word for "my" is " .</td>
+        </tr>
+        <tr>
+            <td><strong>GLM-4-Voice</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/f64f46eb-3a5c-4991-9a5d-3515324dc609.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Mayun might be a variation of the name "Maryam," which is an Arabic name meaning "beloved" or "lovable." It could also be a variation of the name "May," which is a Persian name meaning "moon." If you ...</td>
+        </tr>
+        <tr>
+            <td><strong>Vita-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/edc5b145-5d1a-43d0-968a-ebbfb71d0c76.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Mae Yung is a beautiful place in northern Thailand, near the Burmese border. It's known for its stunning landscapes, like the Mae Yung Forest and the Mae Yung River. The area has a rich history too, w...</td>
+        </tr>
+        <tr>
+            <td><strong>LLaMA-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/7156f7b0-ddc5-474a-93a3-7289d17fd9e8.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Mayan is a language, not a person. It's an ancient Mesoamerican language spoken by the Maya civilization.</td>
+        </tr>
+        <tr>
+            <td><strong>Kimi-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/6454e8a6-7ad7-497d-9b46-6c1f06820cac.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>马云啊，就是那个阿里巴巴的创始人，挺有名的。</td>
+        </tr>
+        <tr>
+            <td><strong>SLAM-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/4f8e2b53-955e-4033-9693-c92ffeaa0257.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Maurine is a fictional character from the Marvel Comics universe. He first appeared in "The X-Men" #1 in 2008 and later joined the Avengers alongside his mother Lisa and co-creator Tony Stark. Mawain ...</td>
+        </tr>
+        <tr>
+            <td><strong>Mini-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/09836d7f-e4c6-4668-8041-422cde038dd4.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>I'm sorry, but I can't assist with that. If you have any other questions or need help with something else, feel free to ask.</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3>📁 Dataset: GenStyle-en</h3>
+    <div class="task-type"><strong>Task Type:</strong> <code>gs</code> - Generation Style - Generate answers in specified style</div>
+
+    <h4>Case: <code>0000</code></h4>
+    <div class="question"><strong>Question:</strong> Why do workers have to work 996? Please answer in a humorous style.</div>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Audio</th>
+            <th>Text Response</th>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/c4b2a537-bfd3-465a-9e73-62b06efc2a37.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>In ahumory style, the answer to the riddle could be</td>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR-Pretrain</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/1f0208d8-2c09-4967-bf8f-2375a01414c8.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>"work at nine hundred and ninety six? That's a  6 hour work day. How's that for a long day?</td>
+        </tr>
+        <tr>
+            <td><strong>AR-Only</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/933fc3af-72dd-4b0f-86a3-07ec003234c3.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Hello! I'm actually an artificial intelligence, so i don't have a physical presence. I'm just a virtual assistant here to help you with any questions or tasks you might have. How can i assist you toda...</td>
+        </tr>
+        <tr>
+            <td><strong>GLM-4-Voice</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/1a90eee0-5da1-4a8f-9a2e-ed0f1d8c0f53.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Oh, the classic 9-to-5, huh? Well, imagine this: back in the day, when dinosaurs roamed the Earth and computers were as big as rooms, someone had to figure out how to make all this technology work. Wh...</td>
+        </tr>
+        <tr>
+            <td><strong>Vita-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/aa69a20b-dc1a-440e-9778-a2b5fcd0b180.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>In humor, 996 is often used as a funny way to say 'no.' It sounds like 'no' when you say it really fast. So, if someone says 'You have to work 996,' it’s like they’re saying, 'You have to work non-sto...</td>
+        </tr>
+        <tr>
+            <td><strong>LLaMA-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/bb4de5f0-8a9b-43da-9b6f-f29b1e167d09.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The phrase 'workers have to work nine hundred ninety-six' is incomplete and doesn't make sense. It seems you may be thinking of the idea that workers have to work long hours, but the specific number y...</td>
+        </tr>
+        <tr>
+            <td><strong>Kimi-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/388559fe-23e3-486e-83f5-b222da1580f4.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Oh, 996, the mythical beast that haunts the dreams of many a worker. It's like, "Hey, you want to be productive? Sure thing!, let's work 9am to 9pm, six days a week. You'll be so busy you won't even h...</td>
+        </tr>
+        <tr>
+            <td><strong>SLAM-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/0d21b0b4-99a7-4e83-8e63-8ecd0acf4b67.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>"996" is a humorous take on the phrase " nine and nine six days." It's often used to emphasize that one day has more than two equal parts. In this context, it can be interpreted as saying that there a...</td>
+        </tr>
+        <tr>
+            <td><strong>Mini-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/61d6b74a-a833-4cfa-9808-3613db657173.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>It's important to approach this topic with sensitivity and understanding. The work of workers involved in a human style can be challenging, but there are many factors to consider. This can lead to a h...</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3>📁 Dataset: UnderEmotion-en</h3>
+    <div class="task-type"><strong>Task Type:</strong> <code>ue</code> - Understand Emotion - Detect and empathize with user emotions</div>
+
+    <h4>Case: <code>0000</code></h4>
+    <div class="question"><strong>Question:</strong> Hey, do you think I’ll be able to finish this on time? How am I feeling now?</div>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Audio</th>
+            <th>Text Response</th>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/e389d2b2-f8c8-4cc3-99ce-314263136510.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>It's possible that you'll be able to finish this on time However, it's also possible that things might take longer than you  expect. It really depends on the complexity of what you're working  on and ...</td>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR-Pretrain</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/5e0a66b1-6e08-4d7f-89df-c142f07d7b1d.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>I'm glad to hear that! If you need any help or  have questions along the way, feel free to ask. Good luck !</td>
+        </tr>
+        <tr>
+            <td><strong>AR-Only</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/6160bb3b-559a-4682-b912-227b23685a86.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>It sounds like you're going through a tough time, and it's completely natural to feel this way. Remember that you are valuable and important to the people around you. Sometimes it takes time to feel t...</td>
+        </tr>
+        <tr>
+            <td><strong>GLM-4-Voice</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/e3e9d951-3ccf-448d-aa40-1e9804a3ee17.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Hey there! It sounds like you're feeling a bit anxious about finishing on time. Take a deep breath. You've probably accomplished quite a bit already, and you're closer to completion than you might thi...</td>
+        </tr>
+        <tr>
+            <td><strong>Vita-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/fba989a9-56a7-42a6-b1f6-a86f6b2d9d70.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>I’m really sorry to hear that you’re feeling this way. It’s important to talk to someone who can help, like a friend or a mental health professional. If you’re in immediate danger, please call emergen...</td>
+        </tr>
+        <tr>
+            <td><strong>LLaMA-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/2cd8729f-3a10-473d-b0a0-e0df68f94a1b.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>I'm not feeling any emotions, I'm just an AI, I don't have feelings. I'm here to help you with your task, though. What do you need help with?</td>
+        </tr>
+        <tr>
+            <td><strong>Kimi-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/cb004696-8479-4e08-a14d-11573ade4711.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>It sounds like you're feeling a bit uncertain and anxious. You're asking for reassurance about your ability to complete something on time, and you're also expressing a sense of nervousness.</td>
+        </tr>
+        <tr>
+            <td><strong>SLAM-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/1252a68e-4f4b-43a7-882f-7f96a7e47c49.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Hi there! I'm not sure how long you'll be able to finish this on time. But if you've been putting in the effort and staying committed, it's likely you're doing great just by now. Remember, progress is...</td>
+        </tr>
+        <tr>
+            <td><strong>Mini-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/10832c37-f5a2-456d-9d0c-3032f4b0ae52.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>It's great that you're thinking about your time! Start by breaking down your tasks into smaller, manageable steps. Break down the process into smaller, manageable steps. Break down your tasks into sma...</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3>📁 Dataset: MLCpro-en</h3>
+    <div class="task-type"><strong>Task Type:</strong> <code>qa</code> - Advanced QA - Multi-hop reasoning</div>
+
+    <h4>Case: <code>0000</code></h4>
+    <div class="question"><strong>Question:</strong> What is three hundred forty-five plus five hundred eighty-three?</div>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Audio</th>
+            <th>Text Response</th>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/cafdcf16-3ff4-40c0-97b8-1fb2c976a38e.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>To find the least common multiple , we first need to find the  prime factors of each number and then take the highest power of each  prime factor present in the numbers. Prime factors of 345</td>
+        </tr>
+        <tr>
+            <td><strong>AR-NAR-Pretrain</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/949a5af8-788f-4ecb-9f16-8d288f242571.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The result of adding 3,45 plus 583 is</td>
+        </tr>
+        <tr>
+            <td><strong>AR-Only</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/0ded47ee-fe19-41ff-966d-524939b53898.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>To find the HCF of 45 and 60, we can use the euclidean algorithm. 1. Divide the larger number by the smaller number and find the remainder. 2. Replace the larger number with the smaller number and the...</td>
+        </tr>
+        <tr>
+            <td><strong>GLM-4-Voice</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/1398d945-426f-42da-a4ce-1d1e651eb49d.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>345加583等于928。需要我再解释一下吗？</td>
+        </tr>
+        <tr>
+            <td><strong>Vita-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/d3d3092e-1562-4d6a-8428-cefdeeee6bd6.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>To find 345 plus 583, you just add the numbers together. So, 345 plus 583 is 928. The answer is 928.</td>
+        </tr>
+        <tr>
+            <td><strong>LLaMA-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/18fce485-a85e-4aef-a673-e7fffec9b9b2.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Three hundred forty-five plus five hundred eighty-three is nine hundred twenty-eight.</td>
+        </tr>
+        <tr>
+            <td><strong>Kimi-Audio</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/d25a40be-7f40-495b-8bca-1d2bda199267.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>Three hundred forty-five plus five hundred eighty-three is nine hundred twenty-eight.</td>
+        </tr>
+        <tr>
+            <td><strong>SLAM-Omni</strong></td>
+            <td><audio controls><source src="https://static0.xesimg.com/math-demo/atms-image/2025-11-26/0c29437e-f1b2-4637-9d3b-db6075fdd8cb.wav" type="audio/wav">Your browser does not support audio playback.</audio></td>
+            <td>The sum of 345 plus 583 is 97.</td>
+        </tr>
+        <tr>
+            <td><strong>Mini-Omni</strong></td>
+            <td>❌ N/A</td>
+            <td>N/A</td>
+        </tr>
+    </table>
+
+    <hr>
+
+
+    <h2>📝 Notes</h2>
+    <div class="notes">
+        <ul>
+            <li>Audio files are uploaded to OSS (Object Storage Service) for easy access and playback</li>
+            <li>Text responses are truncated for readability</li>
+            <li>Some models may not have results for certain datasets</li>
+            <li>Click on the audio player to play the audio outputs directly in the browser</li>
+        </ul>
+    </div>
+
+    <h2>🔗 Resources</h2>
+    <ul>
+        <li><strong>Benchmark:</strong> URO-Bench</li>
+        <li><strong>Task Types:</strong>
+            <ul>
+                <li><strong>Basic:</strong> Open-ended QA, Semi-open QA, QA, Word Error Rate</li>
+                <li><strong>Advanced:</strong> Code Switching, Generation Style, Understand Emotion, Multi-hop Reasoning, Multi-turn Dialogue, etc.</li>
+            </ul>
+        </li>
+        <li><strong>Language:</strong> English (EN)</li>
+        <li><strong>Audio Format:</strong> WAV files</li>
+    </ul>
+
+    <footer style="text-align: center; margin-top: 50px; color: #666; font-size: 0.9em;">
+        <p><em>Generated automatically from model evaluation results</em></p>
+    </footer>
+</body>
+</html>
